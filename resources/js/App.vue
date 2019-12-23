@@ -1,8 +1,5 @@
 <template>
   <v-app>
-    <v-alert :value="true" type="success">
-      You have successfully installed vuetify !
-    </v-alert>
     <v-content>
       <v-container fluid>
         <v-stepper v-model="step">

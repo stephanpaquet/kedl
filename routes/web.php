@@ -17,4 +17,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home.index');
+Route::get('/faq', 'PageController@faq')->name('page.faq');
+Route::post('contact', 'ContactController@store');
+Route::get('/contact', 'PageController@contact')->name('page.contact');
+
+
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});

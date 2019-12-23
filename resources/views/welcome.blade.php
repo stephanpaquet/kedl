@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-        <div id="app">
+    <div id="app" :session="">
 
-        </div>
+    </div>
 @endsection
 
 

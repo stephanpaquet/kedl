@@ -1,0 +1,25 @@
+.faq {
+    margin-bottom: 20px;
+    .letter {
+        font-weight: bold;
+    }
+    .faq-question {
+        .letter {
+            color: #6DCEE3;
+        }
+    }
+    .faq-response {
+        .letter {
+            color: #E06726;
+        }
+    }
+}
+
+.page-contact {
+    section {
+        display: flex;
+        div {
+            width: 50%;
+        }
+    }
+}
