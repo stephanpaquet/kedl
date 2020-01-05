@@ -17,4 +17,9 @@ class PageController extends Controller
     {
         return view('pages.faq', ['faqs' => Faq::all()]);
     }
+
+    public function price()
+    {
+        return view('pages.prices', ['prices' => Faq::all()]);
+    }
 }

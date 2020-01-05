@@ -32,6 +32,7 @@ http://127.0.0.1:8000
 ## TODO
 - Utilisation du vuex pour loader la session
 - Faire en sorte que les component utilisent tous le store
+- Unit test pour la page Contact
 
 2019-11-18
 - Installation de Laravel 5.8.35

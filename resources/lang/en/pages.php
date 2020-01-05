@@ -13,8 +13,12 @@ return [
     |
     */
 
-    'faq' => 'F.A.Q.',
-    'homepage' => 'Homepage',
+    'blog' => 'Blogue',
     'contact' => 'Contact',
-    'faq_title' => 'Foire aux questions',
+    'contact_title' => 'Contact',
+    'faq' => 'F.A.Q.',
+    'faq_title' => 'Frequently asked questions',
+    'homepage' => 'Homepage',
+    'price' => 'The prices',
+    'prices_title' => 'Prices',
 ];

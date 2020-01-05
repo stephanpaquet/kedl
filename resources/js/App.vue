@@ -4,22 +4,15 @@
       <v-container fluid>
         <v-stepper v-model="step">
           <v-stepper-header>
-            <v-stepper-step :complete="step > 1" step="1">Name of step 1</v-stepper-step>
+            <v-stepper-step :complete="step > 1" step="1">{{ $t("steps.step1") }}</v-stepper-step>
 
-            <v-stepper-step :complete="step > 2" step="2">Name of step 2</v-stepper-step>
+            <v-stepper-step :complete="step > 2" step="2">{{ $t("steps.step2") }}</v-stepper-step>
 
-            <v-stepper-step step="3">Name of step 3</v-stepper-step>
+            <v-stepper-step step="3">{{ $t("steps.step3") }}</v-stepper-step>
           </v-stepper-header>
 
           <v-stepper-items>
             <v-stepper-content step="1">
-              <pay-pal-checkout
-                :client="paypal"
-                amount="10.00"
-                env="sandbox"
-                currency="USD"
-                @payment-cancelled="paymentCancelled"
-                @payment-completed="paymentCancelled"/>
 
               <v-text-field
                 v-model="imageName"
@@ -49,7 +42,14 @@
             <v-stepper-content step="2"/>
 
             <v-stepper-content step="3">
-              ici
+                <pay-pal-checkout
+                    :client="paypal"
+                    amount="10.00"
+                    env="sandbox"
+                    currency="USD"
+                    @payment-cancelled="paymentCancelled"
+                    @payment-completed="paymentCancelled"/>
+
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
@@ -156,6 +156,7 @@ export default {
             }
           ).then(function () {
             console.log('SUCCESS!!')
+              this.step = 2
           })
             .catch(function () {
               console.log('FAILURE!!')

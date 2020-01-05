@@ -1,16 +1,31 @@
-require('./bootstrap');
-window.Vue = require('vue');
+/* global Vue */
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+require('./bootstrap')
+window.Vue = require('vue')
 
 import vuetify from './vuetify/index'
 
 import App from './App.vue'
+import VueI18n from 'vue-i18n'
+import localeFr from './lang/fr'
+import localeEn from './lang/en'
 
-const app = new Vue({
-    vuetify,
+Vue.use(VueI18n)
 
-    render: h => h(App),
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+  locale: window.kedl.locale, // set locale
+  messages: {
+    en: localeEn,
+    fr: localeFr
+  }
+})
 
-    el: '#app',
-});
+new Vue({
+  vuetify,
+  i18n,
+
+  el: '#app',
+
+  render: h => h(App)
+})

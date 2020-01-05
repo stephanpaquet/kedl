@@ -9,13 +9,17 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-
-
     <!-- Styles -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script>
+        window.kedl = {
+            locale: '{{ app()->getLocale() }}'
+        };
+    </script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-md shadow-sm top">
         <ul class="navbar-nav">
@@ -57,11 +61,15 @@
                         <a class="nav-link" href="{{ route('page.contact') }}">{{ __('pages.contact') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('page.faq') }}">{{ __('pages.faq') }}</a>
+                        <a class="nav-link" href="{{ route('page.price') }}">{{ __('pages.price') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="http://bloguephotosurtoile.ca/">{{ __('pages.blog') }}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('page.faq') }}">{{ __('pages.faq') }}</a>
+                    </li>
+
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">
@@ -92,7 +100,6 @@
                         </li>
                     @endguest
                     <li class="nav-item">
-                        {{ app()->getLocale() }}
                         <a href="locale/fr">Français</a>
                     </li>
                     <li class="nav-item">

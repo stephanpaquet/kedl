@@ -25,7 +25,7 @@ class LoginTest extends TestCase
     {
         $user = factory(User::class)->make();
         $response = $this->actingAs($user)->get('/login');
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/admin');
     }
 
     public function test_user_can_login_with_correct_credentials()
@@ -38,7 +38,7 @@ class LoginTest extends TestCase
             'email' => $user->email,
             'password' => $password,
         ]);
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/admin');
         $this->assertAuthenticatedAs($user);
     }
 
@@ -73,7 +73,7 @@ class LoginTest extends TestCase
             'remember' => 'on',
         ]);
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/admin');
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
             $user->id,
             $user->getRememberToken(),
