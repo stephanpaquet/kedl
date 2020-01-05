@@ -22,7 +22,7 @@ Route::get('/faq', 'PageController@faq')->name('page.faq');
 Route::post('contact', 'ContactController@store');
 Route::get('/contact', 'PageController@contact')->name('page.contact');
 Route::get('/price', 'PageController@price')->name('page.price');
-
+Route::post('/upload', 'FileEntriesController@index')->name('upload_index');
 
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
