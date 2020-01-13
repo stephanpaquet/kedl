@@ -24,6 +24,11 @@ Route::get('/contact', 'PageController@contact')->name('page.contact');
 Route::get('/price', 'PageController@price')->name('page.price');
 Route::post('/upload', 'FileEntriesController@index')->name('upload_index');
 
+// Checkout
+Route::get('/roomview', 'CheckoutController@roomview')->name('checkout.roomview');
+Route::get('/session', 'CheckoutController@session')->name('checkout.session');
+
+
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();

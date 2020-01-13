@@ -1,80 +1,62 @@
+<style lang="scss">
+    .frameContainer {
+        width: 400px;
+        height: 400px;
+        background-color: yellow;
+    }
+    .v-stepper__content {
+        min-height: 500px;
+    }
+</style>
+
 <template>
   <v-app>
     <v-content>
-      <v-container fluid>
-        <v-stepper v-model="step">
-          <v-stepper-header>
-            <v-stepper-step :complete="step > 1" step="1">{{ $t("steps.step1") }}</v-stepper-step>
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        color="primary"/>
 
-            <v-stepper-step :complete="step > 2" step="2">{{ $t("steps.step2") }}</v-stepper-step>
+      <v-container v-else fluid>
+        [{{ session.image.size.width }}]
+        [{{ session.image.size.height }}]
+        X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height: {{ height }}</p>
+        <div style="height: 400px; width: 100%; border: 1px solid red; position: relative;">
+          <vue-draggable-resizable
+            :w="session.image.size.width"
+            :h="session.image.size.height"
+            :min-width="100"
+            :max-width="300"
+            :parent="true"
+            :lock-aspect-ratio="true"
+            :style="'background-image: url(' + session.image.path + '); background-size:100% 100%;'"
+            @dragging="onDrag"
+            @resizing="onResize"/>
+        </div>
 
-            <v-stepper-step step="3">{{ $t("steps.step3") }}</v-stepper-step>
-          </v-stepper-header>
+        <pay-pal-checkout
+          :client="paypal"
+          amount="10.00"
+          env="sandbox"
+          currency="USD"
+          @payment-cancelled="paymentCancelled"
+          @payment-completed="paymentCancelled"/>
 
-          <v-stepper-items>
-            <v-stepper-content step="1">
+        <pre>{{ session }}</pre>
 
-              <v-text-field
-                v-model="imageName"
-                label="Select Image"
-                prepend-icon="attach_file"
-                @click="pickFile"/>
-              <input
-                ref="image"
-                type="file"
-                style="display: none"
-                accept="image/*"
-                @change="onFilePicked">
-              <v-divider/>
-              <vue-drag-resize
-                v-if="imageUrl"
-                :is-active="true"
-                :w="200"
-                :h="200"
-                :style="'background-image: url(' + imageUrl + '); background-size:100% 100%;'"
-                @resizing="resize"
-                @dragging="resize">
-                <p>{{ top }} х {{ left }} </p>
-                <p>{{ width }} х {{ height }}</p>
-              </vue-drag-resize>
-            </v-stepper-content>
-
-            <v-stepper-content step="2"/>
-
-            <v-stepper-content step="3">
-                <pay-pal-checkout
-                    :client="paypal"
-                    amount="10.00"
-                    env="sandbox"
-                    currency="USD"
-                    @payment-cancelled="paymentCancelled"
-                    @payment-completed="paymentCancelled"/>
-
-            </v-stepper-content>
-          </v-stepper-items>
-        </v-stepper>
-
-        <v-btn
-          :disabled="step === 1"
-          color="primary"
-          @click="step -= 1">
-          Retour
-        </v-btn>
-        <v-btn
-          :disabled="step === 3"
-          color="primary"
-          @click="step += 1">
-          Continue
-        </v-btn>
       </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
+/* global axios */
 
-import VueDragResize from 'vue-drag-resize'
+// @voir https://github.com/mauricius/vue-draggable-resizable
+
 import PayPalCheckout from 'vue-paypal-checkout'
+import VueDraggableResizable from 'vue-draggable-resizable'
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 
 console.log('PayPal', PayPalCheckout)
 
@@ -82,27 +64,34 @@ export default {
   name: 'Vue',
 
   components: {
-    VueDragResize,
+    // VueDragResize,
+    VueDraggableResizable,
     PayPalCheckout
   },
 
   data () {
     return {
+      // width: 0,
+      // height: 0,
+      // top: 0,
+      // left: 0,
       width: 0,
       height: 0,
-      top: 0,
-      left: 0,
+      x: 0,
+      y: 0,
       title: 'Image Upload',
       dialog: false,
       imageName: '',
-      imageUrl: '',
+      imageUrl: '/uploads/UGhhbnRvbV93ZWIuanBn.jpg',
       imageFile: '',
       step: 1,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       paypal: {
         sandbox: 'Ae1sGiOG2V6gVBPFT15DY0TNFoQRYUBeowhj9tSUOgG-3uJKFghGbnwzwXc4O5yDKVnhMe2vFX_HBEbB',
         production: null
-      }
+      },
+      session: {},
+      loading: true
     }
   },
 
@@ -114,6 +103,16 @@ export default {
       this.left = newRect.left
     },
 
+    onResize: function (x, y, width, height) {
+      this.x = x
+      this.y = y
+      this.width = width
+      this.height = height
+    },
+    onDrag: function (x, y) {
+      this.x = x
+      this.y = y
+    },
     pickFile () {
       this.$refs.image.click()
     },
@@ -141,7 +140,7 @@ export default {
           const formData = new FormData()
 
           console.log('this.imageFile', this.imageFile)
-          console.log('this.imageUrl', this.imageUrl)
+          // console.log('this.imageUrl', this.imageUrl)
           formData.append('file', files[0])
           formData.append('size', this.imageFile.size)
           formData.append('type', this.imageFile.type)
@@ -156,7 +155,7 @@ export default {
             }
           ).then(function () {
             console.log('SUCCESS!!')
-              this.step = 2
+            this.step = 2
           })
             .catch(function () {
               console.log('FAILURE!!')
@@ -168,13 +167,22 @@ export default {
         this.imageUrl = ''
       }
     }
+  },
 
+  created () {
+    console.log(this.session)
+    axios.get('/session'
+    ).then(response => {
+      this.session = response.data
+      console.log(response)
+    })
+      .catch(error => {
+        console.log(error)
+      })
+      .then(() => {
+        this.loading = false
+      })
   }
 }
 </script>
 
-<style lang="scss">
-    .v-stepper__content {
-        min-height: 500px;
-    }
-</style>

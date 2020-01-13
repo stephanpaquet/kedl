@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Feature\Auth;
+namespace Tests\Feature;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

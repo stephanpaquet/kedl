@@ -2,46 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
-use Symfony\Component\Console\Input\Input;
+use Illuminate\Routing\Route;
+use Validator;
 
 class FileEntriesController extends Controller
 {
-    public function index(Request $request) {
-        //$file = Input::file('file');
-        $file = $request->all();
-        $path = $request->file->store('public');
-        dump(getimagesize($path));
-        //$width = Image::make($path)->width();
+    public function index(Request $request, Route $route) {
+//dd($request->route()->getActionMethod());
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|image|mimes:jpeg,bmp,png,jpg|max:1000',
+        ]);
 
+        if ($validator->fails()) {
+            return redirect('/')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
+        $file = $request->file('file');
 
-
-//        $upload_file = $request->file($path);
-//        $height = Image::make($upload_file)->height();
-//        $width = Image::make($upload_file)->width();
-
-//        dump($height);
-        dd( $request->file);
-        //        $filename = $file->getClientOriginalName();
+        //Display File Name
+        //        echo 'File Name: '.$file->getClientOriginalName();
+        //        echo '<br>';
         //
-        //        $path = hash( 'sha256', time());
+        //        //Display File Extension
+        //        echo 'File Extension: '.$file->getClientOriginalExtension();
+        //        echo '<br>';
         //
-        //        if(Storage::disk('uploads')->put($path.'/'.$filename,  File::get($file))) {
-        //            $input['filename'] = $filename;
-        //            $input['mime'] = $file->getClientMimeType();
-        //            $input['path'] = $path;
-        //            $input['size'] = $file->getClientSize();
-        //            $file = FileEntry::create($input);
+        //        //Display File Real Path
+        //        echo 'File Real Path: '.$file->getRealPath();
+        //        echo '<br>';
         //
-        //            return response()->json([
-        //                'success' => true,
-        //                'id' => $file->id
-        //            ], 200);
-        //        }
-        //        return response()->json([
-        //            'success' => false
-        //        ], 500);
+        //        //Display File Size
+        //        echo 'File Size: '.$file->getSize();
+        //        echo '<br>';
+        //
+        //        //Display File Mime Type
+        //        echo 'File Mime Type: '.$file->getMimeType();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $fileNameDestination = base64_encode($file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+
+        list ($imageWidth, $imageHeight) = getimagesize($file->getRealPath());
+        $image = [
+            'path' => "/{$destinationPath}/{$fileNameDestination}",
+            'size' => $file->getSize(),
+            'mimeType' => $file->getMimeType(),
+            'size' => [
+                'width' => $imageWidth,
+                'height' => $imageHeight,
+            ],
+        ];
+        $file->move($destinationPath, $fileNameDestination);
+
+        $request->session()->put('session', [
+            'image' => $image
+        ]);
+
+        return redirect('/roomview');
     }
 }
