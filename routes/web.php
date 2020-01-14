@@ -26,6 +26,7 @@ Route::post('/upload', 'FileEntriesController@index')->name('upload_index');
 
 // Checkout
 Route::get('/roomview', 'CheckoutController@roomview')->name('checkout.roomview');
+Route::get('/options', 'CheckoutController@options')->name('checkout.options');
 Route::get('/session', 'CheckoutController@session')->name('checkout.session');
 
 

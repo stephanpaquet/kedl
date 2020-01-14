@@ -20,28 +20,29 @@
       <v-container v-else fluid>
         [{{ session.image.size.width }}]
         [{{ session.image.size.height }}]
+        [{{ orientation }}]
+        [{{ price }}]
         X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height: {{ height }}</p>
-        <div style="height: 400px; width: 100%; border: 1px solid red; position: relative;">
+        <div v-if="session.image.path" style="height: 400px; width: 100%; border: 1px solid red; position: relative;">
           <vue-draggable-resizable
-            :w="session.image.size.width"
-            :h="session.image.size.height"
-            :min-width="100"
-            :max-width="300"
+            :w="calculatedWidth"
+            :h="calculatedHeight"
             :parent="true"
+            :min-width="100"
             :lock-aspect-ratio="true"
             :style="'background-image: url(' + session.image.path + '); background-size:100% 100%;'"
             @dragging="onDrag"
             @resizing="onResize"/>
         </div>
 
-        <pay-pal-checkout
-          :client="paypal"
-          amount="10.00"
-          env="sandbox"
-          currency="USD"
-          @payment-cancelled="paymentCancelled"
-          @payment-completed="paymentCancelled"/>
-
+        <!--        <pay-pal-checkout-->
+        <!--          :client="paypal"-->
+        <!--          amount="10.00"-->
+        <!--          env="sandbox"-->
+        <!--          currency="USD"-->
+        <!--          @payment-cancelled="paymentCancelled"-->
+        <!--          @payment-completed="paymentCancelled"/>-->
+        <v-btn color="primary" @click="nextStep">Continuer</v-btn>
         <pre>{{ session }}</pre>
 
       </v-container>
@@ -68,13 +69,8 @@ export default {
     VueDraggableResizable,
     PayPalCheckout
   },
-
   data () {
     return {
-      // width: 0,
-      // height: 0,
-      // top: 0,
-      // left: 0,
       width: 0,
       height: 0,
       x: 0,
@@ -95,6 +91,30 @@ export default {
     }
   },
 
+  computed: {
+    isLandscape () {
+      return this.session.image.size.width >= this.session.image.size.height
+    },
+    calculatedWidth () {
+      return this.session.image.size.width
+    },
+    calculatedHeight () {
+      return this.session.image.size.height
+    },
+    orientation () {
+        return this.session.image.size.width >= this.session.image.size.height ? 'landscape' : 'portrait'
+    },
+    price () {
+      const priceMultiplier = 0.092
+      let price = ((this.width * this.height) * priceMultiplier)
+      if (price < 30) {
+        price = 30
+      }
+
+      return price.toFixed(2)
+    }
+  },
+
   methods: {
     resize (newRect) {
       this.width = newRect.width
@@ -102,7 +122,6 @@ export default {
       this.top = newRect.top
       this.left = newRect.left
     },
-
     onResize: function (x, y, width, height) {
       this.x = x
       this.y = y
@@ -116,13 +135,24 @@ export default {
     pickFile () {
       this.$refs.image.click()
     },
-
     paymentCancelled (payload) {
       console.log('payload', payload)
     },
-
     paymentCompleted (payload) {
       console.log('payload', payload)
+    },
+    nextStep () {
+      axios.post('/session'
+      ).then(response => {
+        this.session = response.data
+        console.log(response)
+      })
+        .catch(error => {
+          console.log(error)
+        })
+        .then(() => {
+          this.loading = false
+        })
     },
     onFilePicked (e) {
       const files = e.target.files
@@ -170,7 +200,6 @@ export default {
   },
 
   created () {
-    console.log(this.session)
     axios.get('/session'
     ).then(response => {
       this.session = response.data

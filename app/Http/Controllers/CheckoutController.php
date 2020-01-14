@@ -10,10 +10,12 @@ class CheckoutController extends Controller
 {
     public function roomview(Request $request)
     {
-        //dd($request->session()->get('session'));
-        return view('checkout.roomview', [
-            'session' => $request->session()->get('session')
-        ]);
+        return view('checkout.roomview');
+    }
+
+    public function options(Request $request)
+    {
+        return view('checkout.options');
     }
 
     public function session(Request $request) {

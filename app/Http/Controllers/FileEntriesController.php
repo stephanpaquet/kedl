@@ -11,7 +11,7 @@ class FileEntriesController extends Controller
     public function index(Request $request, Route $route) {
 //dd($request->route()->getActionMethod());
         $validator = Validator::make($request->all(), [
-            'file' => 'required|file|image|mimes:jpeg,bmp,png,jpg|max:1000',
+            'file' => 'required|file|image|mimes:jpeg,bmp,png,jpg|max:2000',
         ]);
 
         if ($validator->fails()) {
