@@ -10,12 +10,16 @@ class CheckoutController extends Controller
 {
     public function roomview(Request $request)
     {
-        return view('checkout.roomview');
+        return view('checkout.roomview', [
+            'vueJsActivated' => true
+        ]);
     }
 
     public function options(Request $request)
     {
-        return view('checkout.options');
+        return view('checkout.options', [
+            'vueJsActivated' => true
+        ]);
     }
 
     public function session(Request $request) {
