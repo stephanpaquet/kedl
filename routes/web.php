@@ -11,17 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::get('/faq', 'PageController@faq')->name('page.faq');
 Route::post('contact', 'ContactController@store');
+
+Route::get('/', 'PageController@homepage')->name('page.homepage');
 Route::get('/contact', 'PageController@contact')->name('page.contact');
 Route::get('/price', 'PageController@price')->name('page.price');
+Route::get('/policy', 'PageController@policy')->name('page.policy');
+
 Route::post('/upload', 'FileEntriesController@index')->name('upload_index');
 
 // Checkout

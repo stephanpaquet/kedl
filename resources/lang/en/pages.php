@@ -21,4 +21,5 @@ return [
     'homepage' => 'Homepage',
     'price' => 'The prices',
     'prices_title' => 'Prices',
+    'policy_title' => 'Politique de remboursement ou de réimpression.',
 ];

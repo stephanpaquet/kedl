@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Validator;
+use File;
 
 class FileEntriesController extends Controller
 {
@@ -21,6 +22,7 @@ class FileEntriesController extends Controller
         }
 
         $file = $request->file('file');
+
 
         //Display File Name
         //        echo 'File Name: '.$file->getClientOriginalName();

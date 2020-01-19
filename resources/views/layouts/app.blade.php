@@ -7,6 +7,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <meta name="title" content="photosurtoile.ca - Impression de toiles sur mesure."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Impression de toiles sur mesure, téléchargez vous même votre photo et prévisualisez le résultat avant de commander!"/>
+    <meta name="keywords" content="Photo,Toile,Impression,Toile sur mesure,Photo sur toile,Photo,Canvas,Giclée,Cadre,Encadrement"/>
+    <meta name="author" content="photosurtoile.ca"/>
+    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <meta name="author" content="photosurtoile.ca"/>
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
@@ -23,8 +31,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md shadow-sm top">
-        <ul class="navbar-nav">
+    <nav class="navbar navbar-expand-md top">
+        <ul class="navbar-nav contacts">
             <li>
                 <span>
                     <i class="fas fa-phone-alt rounded"></i>
@@ -32,6 +40,7 @@
                 <span><a href="tel:8665548544">(866) 554-8544</a></span>
             </li>
             <li>
+                <i class="fas fa-envelope rounded"></i>
                 <a href="contact">info@photosurtoile.ca</a>
             </li>
         </ul>
@@ -39,11 +48,11 @@
             <li>facebook</li>
         </ul>
     </nav>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 <img src="/img/photosurtoire-logo.png" alt="Logo Photosurtoile">
-                {{ config('app.name', 'Laravel') }}
+                <span class="d-none">{{ config('app.name', 'Laravel') }}</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -75,6 +84,7 @@
 
                     <!-- Authentication Links -->
                     @guest
+                        {{--
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
@@ -90,9 +100,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 
@@ -101,11 +110,12 @@
                                 </form>
                             </div>
                         </li>
+                         --}}
                     @endguest
-                    <li class="nav-item">
+                    <li class="nav-item d-none">
                         <a href="locale/fr">Français</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item d-none">
                         <a href="locale/en">English</a>
                     </li>
                 </ul>
@@ -117,25 +127,8 @@
         @yield('content')
     </main>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">1</div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">2</div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">3</div>
-    </div>
 
-    @if (!empty($vueJsActivated))
-        <script src="{{ asset('js/app.js') }}"></script>
-    @endif
+
+    @yield('javascript')
 </body>
 </html>

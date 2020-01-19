@@ -10,3 +10,17 @@ body {
         }
     }
 }
+
+a {
+    text-decoration: none;
+    transition-style: linear;
+    transition-duration: 0.2s;
+    color: #333;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.contacts a {
+    color: #fff;
+}
