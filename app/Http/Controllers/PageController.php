@@ -32,7 +32,7 @@ class PageController extends Controller
                 LEFT JOIN wp_term_relationships ON (wp_posts.ID = wp_term_relationships.object_id)
                 LEFT JOIN wp_term_taxonomy ON (wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id)
                 WHERE post_type = "post"
-                AND wp_term_taxonomy.term_id = 2
+                AND wp_term_taxonomy.term_id = 16
             ');
 
         return view('pages.blog', ['blogs' => $blogs]);
