@@ -63,6 +63,14 @@ return [
             ]) : [],
         ],
 
+        'wordpress' => [
+            'driver'    => env('DB_CONNECTION_WORDPRESS'),
+            'host'      => env('DB_HOST_WORDPRESS'),
+            'port'      => env('DB_PORT_WORDPRESS'),
+            'database'  => env('DB_DATABASE_WORDPRESS'),
+            'username'  => env('DB_USERNAME_WORDPRESS'),
+            'password'  => env('DB_PASSWORD_WORDPRESS'),
+        ],
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

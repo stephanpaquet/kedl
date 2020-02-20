@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Faq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
@@ -21,6 +22,20 @@ class PageController extends Controller
     public function faq()
     {
         return view('pages.faq', ['faqs' => Faq::all()]);
+    }
+
+    public function blog()
+    {
+        $blogs = DB::connection('wordpress')
+            ->select('
+                SELECT * FROM wp_posts
+                LEFT JOIN wp_term_relationships ON (wp_posts.ID = wp_term_relationships.object_id)
+                LEFT JOIN wp_term_taxonomy ON (wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id)
+                WHERE post_type = "post"
+                AND wp_term_taxonomy.term_id = 2
+            ');
+
+        return view('pages.blog', ['blogs' => $blogs]);
     }
 
     public function price()

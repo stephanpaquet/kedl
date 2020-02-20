@@ -76,7 +76,7 @@
                         <a class="nav-link" href="{{ route('page.price') }}">{{ __('pages.price') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://bloguephotosurtoile.ca/">{{ __('pages.blog') }}</a>
+                        <a class="nav-link" href="{{ route('page.blog') }}">{{ __('pages.blog') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('page.faq') }}">{{ __('pages.faq') }}</a>

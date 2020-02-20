@@ -37,9 +37,9 @@ class CheckoutTest extends TestCase
         ]);
         //sleep(1);
 
-        //$response->assertStatus(200);
+        $response->assertStatus(200);
             // Assert the file was stored...
-        //Storage::disk('avatars')->assertExists('avatar.jpg');
+        Storage::disk('avatars')->assertExists('avatar.jpg');
 
             // Assert a file does not exist...
         //Storage::disk('avatars')->assertMissing('missing.jpg');

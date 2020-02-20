@@ -18,6 +18,7 @@ return [
     'contact_title' => 'Contact',
     'faq' => 'F.A.Q.',
     'faq_title' => 'Foire aux questions',
+    'blog_title' => 'Blogue',
     'homepage' => 'Accueil',
     'price' => 'Prices',
     'prices_title' => 'Les prix',
